@@ -1,0 +1,131 @@
+import java.awt.*;
+import javax.swing.*;
+public class CMS extends JFrame {
+	private JTabbedPane tabbedPane;
+	private JPanel panel1;
+	private JPanel panel2;
+	public CMS(){
+		setTitle("Content Management System");
+		setSize(400,500);
+		setBackground(Color.gray);
+		
+		JPanel topPanel=new JPanel();
+		topPanel.setLayout(new BorderLayout());
+		getContentPane().add( topPanel );
+		
+		//Creating the two pages
+		createPage1();
+		createPage2();
+		
+		// creating the tabbed pane
+		tabbedPane=new JTabbedPane();
+		tabbedPane.addTab("Basic Details", panel1);
+		tabbedPane.addTab("Address",panel2);
+		topPanel.add(tabbedPane,BorderLayout.CENTER);
+	}
+	public void createPage1(){
+		panel1=new JPanel();
+		panel1.setLayout(null);
+		
+		//Setting up page 1
+		JLabel lblContactId=new JLabel("Contact Id:");
+		
+		panel1.add(lblContactId);
+		JTextField txtContactId=new JTextField();
+		txtContactId.setBounds(20,15, 150, 20);
+		panel1.add(txtContactId);
+		
+		JLabel lblContactTitle=new JLabel("Contact Title:");
+		lblContactTitle.setBounds(10,35, 150, 20);
+		panel1.add(lblContactTitle);
+		JTextField txtContactTitle=new JTextField();
+		txtContactTitle.setBounds(400, 35, 150, 20);
+		panel1.add(txtContactTitle);
+		
+		JLabel lblFirstName=new JLabel("First Name:");
+		lblFirstName.setBounds(10,55, 150, 20);
+		panel1.add(lblFirstName);
+		JTextField txtFirstName=new JTextField();
+		txtFirstName.setBounds(20, 55, 150, 20);
+		panel1.add(txtFirstName);
+		
+		JLabel lblMiddleName=new JLabel("Middle Name:");
+		lblMiddleName.setBounds(10,75, 150, 20);
+		panel1.add(lblMiddleName);
+		JTextField txtMiddleName=new JTextField();
+		txtMiddleName.setBounds(20, 75, 150, 20);
+		panel1.add(txtMiddleName);
+		
+		JLabel lblLastName=new JLabel("Last Name:");
+		lblLastName.setBounds(10,95, 150, 20);
+		panel1.add(lblLastName);
+		JTextField txtLastName=new JTextField();
+		txtLastName.setBounds(20, 95, 150, 20);
+		panel1.add(txtLastName);
+		
+		JLabel lblEducation=new JLabel("Education:");
+		lblEducation.setBounds(10,105, 150, 20);
+		panel1.add(lblEducation);
+		JTextField txtEducation=new JTextField();
+		txtEducation.setBounds(20, 105, 150, 20);
+		panel1.add(txtEducation);
+		
+		JLabel lblPhoneNumber=new JLabel("Phone Number:");
+		lblPhoneNumber.setBounds(10,125, 150, 20);
+		panel1.add(lblPhoneNumber);
+		JTextField txtPhoneNumber=new JTextField();
+		txtPhoneNumber.setBounds(20, 125, 150, 20);
+		panel1.add(txtPhoneNumber);
+		
+		JLabel lblCellNumber=new JLabel("Cell Number:");
+		lblCellNumber.setBounds(10,145, 150, 20);
+		panel1.add(lblCellNumber);
+		JTextField txtCellNumber=new JTextField();
+		txtCellNumber.setBounds(20, 145, 150, 20);
+		panel1.add(txtCellNumber);
+		
+		JLabel lblEmailId=new JLabel("Email Id:");
+		lblEmailId.setBounds(10,165, 150, 20);
+		panel1.add(lblEmailId);
+		JTextField txtEmailId=new JTextField();
+		txtEmailId.setBounds(20, 165, 150, 20);
+		panel1.add(txtEmailId);	
+	}
+	public void createPage2(){
+		panel2=new JPanel();
+		panel2.setLayout(new GridLayout(11,2,10,10));
+		
+		//Setting up page 2
+		JLabel lblStreet=new JLabel("Street:");
+		lblStreet.setBounds(10,15, 150, 20);
+		panel2.add(lblStreet);
+		JTextField txtStreet=new JTextField();
+		txtStreet.setBounds(30, 15, 150, 20);
+		panel2.add(txtStreet);
+		
+		JLabel lblCity=new JLabel("City:");
+		lblCity.setBounds(10,35, 150, 20);
+		panel2.add(lblCity);
+		JTextField txtCity=new JTextField();
+		txtCity.setBounds(30, 35, 150, 20);
+		panel2.add(txtCity);
+		
+		JLabel lblState=new JLabel("State:");
+		lblState.setBounds(10,55, 150, 20);
+		panel2.add(lblState);
+		JTextField txtState=new JTextField();
+		txtState.setBounds(30, 55, 150, 20);
+		panel2.add(txtState);
+		
+		JLabel lblPincode=new JLabel("Pincode:");
+		lblPincode.setBounds(10,75, 150, 20);
+		panel2.add(lblPincode);
+		JTextField txtPincode=new JTextField();
+		txtPincode.setBounds(30, 75, 150, 20);
+		panel2.add(txtPincode);
+	}
+	public static void main(String args[]){
+		CMS CMSExample =new CMS();
+		CMSExample.setVisible(true);
+	}
+}

@@ -1,0 +1,11 @@
+import java.awt.*;
+import javax.swing.*;
+public class CMS extends JFrame {
+	private JTabbedPane tabbedPane;
+	private JPanel panel1;
+	private JPanel panel2;
+	public CMS(){
+		setTitle("Content Management System");
+		setSize(400,500);
+	}
+}

@@ -1,0 +1,26 @@
+import java.awt.*;
+import javax.swing.*;
+public class CMS extends JFrame {
+	private JTabbedPane tabbedPane;
+	private JPanel panel1;
+	private JPanel panel2;
+	public CMS(){
+		setTitle("Content Management System");
+		setSize(400,500);
+		setBackground(Color.gray);
+		
+		JPanel topPanel=new JPanel();
+		topPanel.setLayout(new BorderLayout());
+		getContentPane().add( topPanel );
+		
+		//Creating the two pages
+		createPage1();
+		createPage2();
+		
+		// creating the tabbed pane
+		tabbedPane=new JTabbedPane();
+		tabbedPane.addTab("Basic Details", panel1);
+		tabbedPane.addTab("Address",panel2);
+		
+	}
+}

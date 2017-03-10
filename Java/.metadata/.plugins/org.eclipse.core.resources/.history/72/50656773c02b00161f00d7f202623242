@@ -1,0 +1,381 @@
+import javax.swing.*;
+import java.util.Vector;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.sql.*;
+public class StudentInfo extends JFrame implements ActionListener {
+	
+	JTextField txtContactId,txtContactTitle,txtFirstName,txtMiddleName,txtEmailId,
+	txtLastName,txtEducation,txtPhoneNumber,txtCellNumber,txtStreet,txtCity,txtState,txtPincode,txtSave;
+	JButton btnNew;
+	Connection cn;
+	Statement sm;
+	ResultSet rs;
+	public StudentInfo(){
+		super("Student Information Application");
+		initializeComponents();
+		initializeMenu();
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setSize(350,500);
+		this.setVisible(true);
+		try {
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+			String cString = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};dbq=E:\\Swastik\\SI.mdb";
+			cn = DriverManager.getConnection(cString);
+			sm = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			rs = sm.executeQuery("Select * from StudentInfo");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		firstClick();
+	}
+	public void dispose(){
+		super.dispose();
+		try{
+			rs.close();
+			sm.close();
+			cn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.exit(0);
+	}
+	
+	private void initializeComponents() {
+		Container c = this.getContentPane();
+		c.setLayout(new BorderLayout());
+		JPanel panelMain = new JPanel();
+		panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+		JPanel panelFields = new JPanel(new GridLayout(11, 2, 10, 10));
+		
+		panelFields.add(new JLabel("Contact Id:", JLabel.RIGHT));
+		txtContactId = new JTextField(20);
+		panelFields.add(txtContactId);
+		
+		panelFields.add(new JLabel("Contact Title:", JLabel.RIGHT));
+		txtContactTitle= new JTextField(20);
+		panelFields.add(txtContactTitle);
+		
+		panelFields.add(new JLabel("First Name:", JLabel.RIGHT));
+		txtFirstName = new JTextField(20);
+		panelFields.add(txtFirstName);
+		
+		panelFields.add(new JLabel("Middle Name", JLabel.RIGHT));
+		txtMiddleName = new JTextField(20);
+		panelFields.add(txtMiddleName);
+
+		panelFields.add(new JLabel("Last Name:", JLabel.RIGHT));
+		txtLastName = new JTextField(20);
+		panelFields.add(txtLastName);
+		
+		panelFields.add(new JLabel("Education:", JLabel.RIGHT));
+		txtEducation = new JTextField(20);
+		panelFields.add(txtEducation);
+		
+		panelFields.add(new JLabel("Street:", JLabel.RIGHT));
+		txtStreet= new JTextField(20);
+		panelFields.add(txtStreet);
+		
+		panelFields.add(new JLabel("City:", JLabel.RIGHT));
+		txtCity = new JTextField(20);
+		panelFields.add(txtCity);
+		
+		panelFields.add(new JLabel("State", JLabel.RIGHT));
+		txtState = new JTextField(20);
+		panelFields.add(txtState);
+		
+		panelFields.add(new JLabel("Pincode:", JLabel.RIGHT));
+		txtPincode = new JTextField(20);
+		panelFields.add(txtPincode);
+		
+		panelFields.add(new JLabel("Phone Number:", JLabel.RIGHT));
+		txtPhoneNumber= new JTextField(20);
+		panelFields.add(txtPhoneNumber);
+		
+		panelFields.add(new JLabel("Cell Number:", JLabel.RIGHT));
+		txtCellNumber = new JTextField(20);
+		panelFields.add(txtCellNumber);
+		
+		panelFields.add(new JLabel("Email Id:", JLabel.RIGHT));
+		txtEmailId = new JTextField(20);
+		panelFields.add(txtEmailId);
+		
+		
+		
+		panelFields.add(new JLabel(" ",JLabel.CENTER));
+		txtSave = new JTextField(20);
+		panelFields.add(txtSave);
+		
+		txtSave.setVisible(false);
+		panelMain.add(panelFields);
+
+		JPanel panelButtons = new JPanel(new GridLayout(2, 4, 10, 10));
+		btnNew = new JButton("New");
+		panelButtons.add(btnNew);
+		btnNew.addActionListener(this);
+
+		JButton btnSave = new JButton("Save");
+		panelButtons.add(btnSave);
+		btnSave.addActionListener(this);
+		JButton btnDelete = new JButton("Delete");
+		panelButtons.add(btnDelete);
+		btnDelete.addActionListener(this);
+		JButton btnExit = new JButton("Exit");
+		panelButtons.add(btnExit);
+		btnExit.addActionListener(this);
+		JButton btnFirst = new JButton("First");
+		panelButtons.add(btnFirst);
+		btnFirst.addActionListener(this);
+		JButton btnNext = new JButton("Next");
+		panelButtons.add(btnNext);
+		btnNext.addActionListener(this);
+		JButton btnPrevious = new JButton("Previous");
+		panelButtons.add(btnPrevious);
+		btnPrevious.addActionListener(this);
+		JButton btnLast = new JButton("Last");
+		panelButtons.add(btnLast);
+		btnLast.addActionListener(this);
+		panelMain.add(new JLabel(" "));
+		panelMain.add(panelButtons);
+
+		c.add(panelMain, "Center");
+		c.add(new JLabel(" "), "North");
+		c.add(new JLabel(" "), "South");
+		c.add(new JLabel("   "), "East");
+		c.add(new JLabel("   "), "West");
+
+	}
+
+	private void initializeMenu(){
+		JMenuBar mb = new JMenuBar();
+		JMenu file= new JMenu("File");
+		JMenuItem metal = new JMenuItem("Metal");
+		file.add(metal);
+		metal.addActionListener(this);
+		JMenuItem motif = new JMenuItem("Motif");
+		file.add(motif);
+		motif.addActionListener(this);
+		JMenuItem window = new JMenuItem("Windows");
+		file.add(window);
+		window.addActionListener(this);
+		file.addSeparator();
+		JMenuItem exit = new JMenuItem("Exit");
+		file.add(exit);
+		exit.addActionListener(this);
+		mb.add(file);
+		this.setJMenuBar(mb);
+			
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String strAction = e.getActionCommand();
+		if (strAction.equalsIgnoreCase("Exit")) {
+			dispose();
+		}
+		if (strAction.equalsIgnoreCase("New")) {
+			newClick();
+		}
+		if (strAction.equalsIgnoreCase("First")) {
+			firstClick();
+		}
+		if (strAction.equalsIgnoreCase("Next")) {
+			nextClick();
+		}
+		if (strAction.equalsIgnoreCase("Last")) {
+			lastClick();
+		}
+		if (strAction.equalsIgnoreCase("Previous")) {
+			previousClick();
+		}
+		if (strAction.equalsIgnoreCase("Save")) {
+			saveClick();
+		}
+		if (strAction.equalsIgnoreCase("Delete")) {
+			deleteClick();
+		}
+		if(strAction.equalsIgnoreCase("metal")){
+			try{
+				UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
+		}
+		if(strAction.equalsIgnoreCase("motif")){
+			try{
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
+		}
+		if(strAction.equalsIgnoreCase("windows")){
+			try{
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
+		}
+
+	}
+	
+	private void newClick(){
+		btnNew.setEnabled(false);
+		resetFields();
+	}
+	private void resetFields(){
+		txtContactId.setText("");
+		txtContactTitle.setText("");
+		txtFirstName.setText("");
+		txtMiddleName.setText("");
+		txtLastName.setText("");
+		txtEducation.setText("");
+		txtStreet.setText("");
+		txtCity.setText("");
+		txtState.setText("");
+		txtPincode.setText("");
+		txtPhoneNumber.setText("");
+		txtCellNumber.setText("");
+		txtEmailId.setText("");
+	}
+	private void populateRecord(){
+		try{
+			txtContactId.setText(rs.getString("ContactId"));
+			txtContactTitle.setText(rs.getString("ContactTitle"));
+			txtFirstName.setText(rs.getString("FirstName"));
+			txtMiddleName.setText(rs.getString("MiddleName"));
+			txtLastName.setText(rs.getString("LastName"));
+			txtEducation.setText(rs.getString("Education"));
+			txtStreet.setText(rs.getString("Street"));
+			txtCity.setText(rs.getString("City"));
+			txtState.setText(rs.getString("State"));
+			txtPincode.setText(rs.getString("Pincode"));
+			txtPhoneNumber.setText(rs.getString("PhoneNumber"));
+			txtCellNumber.setText(rs.getString("CellNumber"));
+			txtEmailId.setText(rs.getString("EmailId"));
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	private void firstClick(){
+		try{
+			rs.first();
+			populateRecord();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	private void nextClick(){
+		try{
+			rs.next();
+			if(rs.isAfterLast()){
+				firstClick();
+				return;
+			}
+			populateRecord();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	private void previousClick(){
+		try{
+			rs.previous();
+			if(rs.isBeforeFirst()){
+				lastClick();
+				return;
+			}
+			populateRecord();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	private void lastClick(){
+		try{
+			rs.last();
+			populateRecord();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	private void deleteClick(){
+		int x= JOptionPane.showConfirmDialog(this,"Are you sure to delete?");
+		if(x==JOptionPane.YES_OPTION){
+			try{
+				PreparedStatement ps= cn.prepareStatement("Delete from StudentInfo where ContactId=?");
+				ps.setInt(1,Integer.parseInt(txtContactId.getText()));
+				ps.execute();
+				this.resetFields();
+				rs=sm.executeQuery("Select * from StudentInfo");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	private void saveClick(){
+		txtSave.setVisible(true);
+		if(btnNew.isEnabled()){
+			try{
+				PreparedStatement ps= cn.prepareStatement("Update StudentInfo set ContactTitle=?,FirstName=?,MiddleName=?,LastName=?,Education=?,Street=?,City=?,State=?,Pincode=?,PhoneNumber=?,CellNumber=?,EmailId=? where ContactId=?");
+				ps.setString(1,txtContactTitle.getText());
+				ps.setString(2,txtFirstName.getText());
+				ps.setString(3,txtMiddleName.getText());
+				ps.setString(4,txtLastName.getText());
+				ps.setString(5,txtEducation.getText());
+				ps.setString(6,txtStreet.getText());
+				ps.setString(7,txtCity.getText());
+				ps.setString(8,txtState.getText());
+				ps.setString(9,txtPincode.getText());
+				ps.setString(10,txtPhoneNumber.getText());
+				ps.setString(11,txtCellNumber.getText());
+				ps.setString(12,txtEmailId.getText());
+				ps.setInt(13,Integer.parseInt(txtContactId.getText()));
+				ps.execute();
+				txtSave.setText("Saved Successfully");
+				this.resetFields();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		else{
+			try{
+				PreparedStatement ps= cn.prepareStatement("Insert into StudentInfo values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				ps.setInt(1,Integer.parseInt(txtContactId.getText()));
+				ps.setString(2,txtContactTitle.getText());
+				ps.setString(3,txtFirstName.getText());
+				ps.setString(4,txtMiddleName.getText());
+				ps.setString(5,txtLastName.getText());
+				ps.setString(6,txtEducation.getText());
+				ps.setString(7,txtStreet.getText());
+				ps.setString(8,txtCity.getText());
+				ps.setString(9,txtState.getText());
+				ps.setString(9,txtPincode.getText());
+				ps.setString(9,txtPhoneNumber.getText());
+				ps.setString(9,txtCellNumber.getText()); 
+				ps.setString(9,txtEmailId.getText());
+				ps.execute();
+				txtSave.setBorder(null);
+				txtSave.setBackground(null);
+				txtSave.setText("Saved Successfully");
+				this.resetFields();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		try{
+			rs=sm.executeQuery("Select * from StudentInfo");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		btnNew.setEnabled(true);
+	}
+	public static void main(String aargs[]){
+		new StudentInfo();
+		
+	}
+
+}

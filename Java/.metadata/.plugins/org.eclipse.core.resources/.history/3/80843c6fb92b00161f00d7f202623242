@@ -1,0 +1,155 @@
+import javax.swing.*;
+import java.util.Vector;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.sql.*;
+public class CMS extends JFrame implements ActionListener{
+	private JTabbedPane tabbedPane;
+	private JPanel panel1;
+	private JPanel panel2;
+	JTextField txtSave;
+	JButton btnNew;
+	Connection cn;
+	Statement sm;
+	ResultSet rs;
+	public CMS(){
+		super("Content Management System App");
+		initializMenu();
+		initializeComponents();
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setTitle("Content Management System");
+		setSize(400,500);
+		setBackground(Color.gray);
+		try {
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+			String cString = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};dbq=E:\\Swastik\\SI.mdb";
+			cn = DriverManager.getConnection(cString);
+			sm = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			rs = sm.executeQuery("Select * from StudentInfo");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		firstClick();
+	}
+	public void dispose(){
+		super.dispose();
+		try{
+			rs.close();
+			sm.close();
+			cn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.exit(0);
+	}
+	public void createPage1(){
+		panel1=new JPanel();
+		panel1.setLayout(new GridLayout(11,2,10,10));
+		
+		//Setting up page 1
+		JLabel lblContactId=new JLabel("Contact Id:");
+		panel1.add(lblContactId);
+		JTextField txtContactId=new JTextField();
+		panel1.add(txtContactId);
+		
+		JLabel lblContactTitle=new JLabel("Contact Title:");
+		
+		panel1.add(lblContactTitle);
+		JTextField txtContactTitle=new JTextField();
+		
+		panel1.add(txtContactTitle);
+		
+		JLabel lblFirstName=new JLabel("First Name:");
+		
+		panel1.add(lblFirstName);
+		JTextField txtFirstName=new JTextField();
+		
+		panel1.add(txtFirstName);
+		
+		JLabel lblMiddleName=new JLabel("Middle Name:");
+		
+		panel1.add(lblMiddleName);
+		JTextField txtMiddleName=new JTextField();
+		
+		panel1.add(txtMiddleName);
+		
+		JLabel lblLastName=new JLabel("Last Name:");
+		
+		panel1.add(lblLastName);
+		JTextField txtLastName=new JTextField();
+		
+		panel1.add(txtLastName);
+		
+		JLabel lblEducation=new JLabel("Education:");
+		
+		panel1.add(lblEducation);
+		JTextField txtEducation=new JTextField();
+		
+		panel1.add(txtEducation);
+		
+		JLabel lblPhoneNumber=new JLabel("Phone Number:");
+		
+		panel1.add(lblPhoneNumber);
+		JTextField txtPhoneNumber=new JTextField();
+		
+		panel1.add(txtPhoneNumber);
+		
+		JLabel lblCellNumber=new JLabel("Cell Number:");
+		
+		panel1.add(lblCellNumber);
+		JTextField txtCellNumber=new JTextField();
+		
+		panel1.add(txtCellNumber);
+		
+		JLabel lblEmailId=new JLabel("Email Id:");
+		
+		panel1.add(lblEmailId);
+		JTextField txtEmailId=new JTextField();
+		
+		panel1.add(txtEmailId);	
+	}
+	public void createPage2(){
+		panel2=new JPanel();
+		panel2.setLayout(new GridLayout(11,6,10,10));
+		
+		//Setting up page 2
+		JLabel lblStreet=new JLabel("Street:");
+		
+		panel2.add(lblStreet);
+		JTextField txtStreet=new JTextField();
+		
+		panel2.add(txtStreet);
+		
+		JLabel lblCity=new JLabel("City:");
+		
+		panel2.add(lblCity);
+		JTextField txtCity=new JTextField();
+		panel2.add(txtCity);
+		
+		JLabel lblState=new JLabel("State:");
+
+		panel2.add(lblState);
+		JTextField txtState=new JTextField();
+
+		panel2.add(txtState);
+		
+		JLabel lblPincode=new JLabel("Pincode:");
+
+		panel2.add(lblPincode);
+		JTextField txtPincode=new JTextField();
+
+		panel2.add(txtPincode);
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	public static void main(String args[]){
+		CMS CMSExample =new CMS();
+		CMSExample.setVisible(true);
+	}
+	
+}
